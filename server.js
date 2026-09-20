@@ -25,19 +25,19 @@ const dbConection = async () => {
   }
 };
 
-app.post("/test", async (req, res) => {
+app.get("/test", async (req, res) => {
   const options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.GROQ_API_KEY}`, // fixed here
+      Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
     },
     body: JSON.stringify({
       model: "llama-3.3-70b-versatile",
       messages: [
         {
           role: "user",
-          content: req.body.message,
+          content: "Hii tell me about India",
         },
       ],
     }),
@@ -48,11 +48,18 @@ app.post("/test", async (req, res) => {
       "https://api.groq.com/openai/v1/chat/completions",
       options
     );
+
     const data = await response.json();
-    // console.log(data);
-    res.send(data);
+
+    if (!response.ok) {
+      return res.status(response.status).json(data);
+    }
+
+    res.json(data);
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Something went wrong");
+    console.error(err);
+    res.status(500).json({
+      error: "Something went wrong",
+    });
   }
 });

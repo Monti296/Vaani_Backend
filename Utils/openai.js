@@ -5,10 +5,10 @@ const openAiResponse = async (message) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, // fixed here
+      Authorization: `Bearer ${process.env.GROQ_API_KEY}`, // fixed here
     },
     body: JSON.stringify({
-      model: "gpt-4.1-mini",
+      model: "llama-3.3-70b-versatile",
       messages: [
         {
           role: "system",
@@ -25,7 +25,7 @@ const openAiResponse = async (message) => {
 
   try {
     const response = await fetch(
-      "https://api.chatanywhere.tech/v1/chat/completions",
+      "https://api.groq.com/openai/v1/chat/completions",
       options
     );
     const data = await response.json();
