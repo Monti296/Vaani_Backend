@@ -7,6 +7,7 @@ dotenv.config({
 import cors from "cors";
 import mongoose from "mongoose";
 import chatRoutes from "./Routes/chat.js";
+import openAiResponse from "./Utils/openai.js"
 
 const app = express();
 const PORT = 8181;
@@ -31,41 +32,6 @@ const dbConection = async () => {
 
 app.get("/test", async (req, res) => {
   
-  const options = {
-
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: "openai/gpt-oss-120b",
-      messages: [
-        {
-          role: "user",
-          content: "Hii tell me about India",
-        },
-      ],
-    }),
-  };
-
-  try {
-    const response = await fetch(
-      "https://api.groq.com/openai/v1/chat/completions",
-      options
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      return res.status(response.status).json(data);
-    }
-
-    res.json(data);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Something went wrong",
-    });
-  }
+const output=await openAiResponse("tell me how to introduce my self in 10 lines.");
+res.send(output);
 });
