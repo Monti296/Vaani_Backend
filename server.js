@@ -1,5 +1,9 @@
 import express from "express";
-import "dotenv/config";
+import dotenv from "dotenv";
+
+dotenv.config({
+  path: "/home/ubuntu/vaani-env/.env",
+});
 import cors from "cors";
 import mongoose from "mongoose";
 import chatRoutes from "./Routes/chat.js";
