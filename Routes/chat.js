@@ -44,20 +44,26 @@ router.delete("/thread/:threadId", async (req, res) => {
 //for create new route and provide message or only for provide message and save it in atlas
 router.post("/chat", async (req, res) => {
   const { threadId, message, count } = req.body;
+  
 
   if (!threadId || !message) {
     res.status(400).send("Requried fields are empty!");
   }
+  
 
   try {
     let thread = await Thread.findOne({ threadId });
+   
     if (!thread) {
+      
       thread = new Thread({
         threadId,
         title: "New Chat",
         messages: [{ role: "user", content: message }],
       });
+      
     } else {
+      
       if (count == 2) {
         const title = await openAIResponcer(
           `provide me the best short title of max 6 words for this without brackets and in only english "${message}"`

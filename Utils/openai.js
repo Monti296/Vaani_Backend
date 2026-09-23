@@ -1,7 +1,18 @@
 import "dotenv/config";
 
 const openAiResponse = async (messages) => {
-  console.log(messages);
+  const finalMessages = [
+    {
+      role: "system",
+      content:
+        "You are Vanii, an AI assistant created by Monti Rajput. Never say you are ChatGPT. only introduce whenever user ask who are you.",
+    },
+    ...messages.map((msg) => ({
+      role: msg.role,
+      content: msg.content,
+    })),
+  ];
+
   const options = {
     method: "POST",
     headers: {
@@ -10,14 +21,7 @@ const openAiResponse = async (messages) => {
     },
     body: JSON.stringify({
       model: "openai/gpt-oss-120b",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are Vanii, an AI assistant created by Monti Rajput. Never say you are ChatGPT. only introduce whenever user ask who are you.",
-        },
-        ...messages
-      ],
+     messages:finalMessages
     }),
   };
 
