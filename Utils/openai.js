@@ -1,6 +1,7 @@
 import "dotenv/config";
 
 const openAiResponse = async (messages) => {
+  console.log(messages);
   const options = {
     method: "POST",
     headers: {
@@ -25,12 +26,20 @@ const openAiResponse = async (messages) => {
       "https://api.groq.com/openai/v1/chat/completions",
       options
     );
+
+   
     const data = await response.json();
+ if (!response.ok) {
+      throw new Error(
+        data?.error?.message || "Groq API request failed"
+      );
+    }
+     
     // console.log(data);
     return data.choices[0].message.content;
   } catch (err) {
     console.log(err);
-    res.status(500).send("Something went wrong");
+   throw err;
   }
 };
 
