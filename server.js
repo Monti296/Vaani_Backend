@@ -31,7 +31,6 @@ const dbConection = async () => {
 };
 
 app.get("/test", async (req, res) => {
-  
 const output=await openAiResponse("tell me how to introduce my self in 10 lines.");
 res.send(output);
 });

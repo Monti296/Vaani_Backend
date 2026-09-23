@@ -60,13 +60,13 @@ router.post("/chat", async (req, res) => {
     } else {
       if (count == 2) {
         const title = await openAIResponcer(
-          `provide me the best short title of max 6 words for this without brackets and in only english "${message}"`
+          `provide me the best short title of max 6 words for this without brackets and in only english "${thread.messages}"`
         );
         thread.title = title;
       }
       thread.messages.push({ role: "user", content: message });
     }
-    const assistantReply = await openAIResponcer(message);
+    const assistantReply = await openAIResponcer(thread.messages);
     thread.messages.push({ role: "assistant", content: assistantReply });
     thread.updatedAt = new Date();
     await thread.save();
