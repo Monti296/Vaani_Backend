@@ -63,14 +63,18 @@ router.post("/chat", async (req, res) => {
       });
       
     } else {
-      
+      thread.messages.push({ role: "user", content: message });
       if (count == 2) {
+const titlethread=[thread.messages[0],{
+  role:"user",
+  content:`provide me the best short title of max 6 words for this without brackets and in only english "${message}"`
+}]
         const title = await openAIResponcer(
-          `provide me the best short title of max 6 words for this without brackets and in only english "${message}"`
+          titlethread
         );
         thread.title = title;
       }
-      thread.messages.push({ role: "user", content: message });
+      
     }
     const assistantReply = await openAIResponcer(thread.messages);
     thread.messages.push({ role: "assistant", content: assistantReply });
