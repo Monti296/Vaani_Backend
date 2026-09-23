@@ -60,7 +60,7 @@ router.post("/chat", async (req, res) => {
     } else {
       if (count == 2) {
         const title = await openAIResponcer(
-          `provide me the best short title of max 6 words for this without brackets and in only english "${thread.messages}"`
+          `provide me the best short title of max 6 words for this without brackets and in only english "${message}"`
         );
         thread.title = title;
       }

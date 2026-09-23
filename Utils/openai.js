@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-const openAiResponse = async (message) => {
+const openAiResponse = async (messages) => {
   const options = {
     method: "POST",
     headers: {
@@ -15,10 +15,7 @@ const openAiResponse = async (message) => {
           content:
             "You are Vanii, an AI assistant created by Monti Rajput. Never say you are ChatGPT. only introduce whenever user ask who are you.",
         },
-        {
-          role: "user",
-          content: message,
-        },
+        ...messages
       ],
     }),
   };
